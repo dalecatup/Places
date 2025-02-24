@@ -1,0 +1,162 @@
+body {
+  background: #d1d1d1;
+  font-family: Arial, sans-serif;
+  max-width: 500px;
+  margin: 20px auto;
+  text-align: center;
+}
+h1 {
+  font-family: "Questrial", sans-serif;
+  font-size: 40px;
+  text-align: center;
+  color: #2772db;
+  padding: 20px;
+  margin: 0 auto;
+  position: relative;
+}
+.frame {
+  background-color: #f0eeee;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 30px;
+  padding-top: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+header {
+  padding-bottom: 20px;
+}
+
+.categories {
+  font-family: "Roboto", serif;
+  font-size: 13px;
+}
+ul {
+  list-style-type: none;
+  padding: 0 auto;
+}
+li {
+  background: #f0eeee;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+button {
+  display: inline-block;
+  font-size: 15px;
+  background-color: #2772db;
+  color: #fff;
+  padding: 5px 5px 5px 5px;
+  line-height: 1;
+  border: 1px solid #8d8d8d3b;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  font-family: "Didact Gothic", sans-serif;
+  cursor: pointer;
+  width: 15%;
+  box-sizing: border-box;
+  /*box-shadow: 5px 5px 6px rgba(71, 71, 71, 0.4);*/
+  height: 35px;
+}
+.buttonarea {
+  padding-top: 10px;
+}
+#placeInput,
+#placeType {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: rgba(255, 255, 255, 0.938);
+  color: rgba(50, 68, 57, 0.4);
+  border: 1px solid #8d8d8d3b;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: "Didact Gothic", sans-serif;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+#placeInput {
+  width: 50%;
+  font-style: italic;
+}
+
+#placeType {
+  width: 30%;
+  color: #393e46;
+}
+
+#ratingFields {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #393e46;
+  background: rgba(255, 255, 255, 0.938);
+  padding: 15px;
+  border: 1px solid #8d8d8d3b;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 355px;
+  margin: 0 auto;
+}
+
+#ratingFields label {
+  display: inline-block;
+  width: 65px;
+  text-align: right;
+  font-weight: bold;
+}
+
+#ratingFields input {
+  width: 50px;
+  height: 30px;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  border: 1px solid #8d8d8d3b;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.938);
+  color: #393e46;
+  cursor: auto;
+}
+
+.ratingField {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+#placeList {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #393e46;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+footer {
+  color: #393e46;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0 auto;
+  border-top: 1px solid #8d8d8d3b;
+  padding-top: 5px;
+  margin-bottom: -20px;
+}
+footer a {
+  color: #2772db;
+  font-weight: bold;
+}
