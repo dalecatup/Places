@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel/Restaurant Ranking</title>
     <link rel="stylesheet" href="src/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Questrial&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <title>Hotel/Restaurant Ranking😍😨</title>
   </head>
   <body>
     <h1>Places Ranking</h1>
@@ -36,15 +32,15 @@
           <select id="placeType">
             <option value="restaurant">🍽 Restaurant</option>
             <option value="hotel">🏨 Hotel</option>
-            <input
-              type="text"
-              id="locationInput"
-              list="locationSuggestions"
-              placeholder="🌍 Search location"
-              autocomplete="off"
-            />
-            <datalist id="locationSuggestions"></datalist>
           </select>
+          <input
+            type="text"
+            id="locationInput"
+            list="locationSuggestions"
+            placeholder="🌍 Search location"
+            autocomplete="off"
+          />
+          <datalist id="locationSuggestions"></datalist>
         </div>
       </header>
 
@@ -53,23 +49,28 @@
         <button id="addButton">Add</button>
       </div>
     </div>
+    <div class="visited">
+      <h2>Visited Places</h2>
+      <ul id="placeList"></ul>
+    </div>
 
-    <h2>Visited Places</h2>
-    <ul id="placeList"></ul>
+    <footer>
+      <p>
+        Project coded by
+        <a href="https://kumadesign.netlify.app/" target="_blank"
+          >Marina Reggiani</a
+        >
+        <br />
+        open-sourced on
+        <a href="https://github.com/dalecatup/Places" target="_blank">Github</a>
+        and hosted on
+        <a href="https://kuma-weatherapp.netlify.app/" target="_blank"
+          >Netlify</a
+        >
+      </p>
+      <p>⭐-_-💧</p>
+    </footer>
+
+    <script src="src/index.js"></script>
   </body>
-  <footer>
-    <p>
-      Project coded by
-      <a href="https://kumadesign.netlify.app/" target="_blank"
-        >Marina Reggiani</a
-      >
-      <br />
-      open-sourced on
-      <a href="https://github.com/dalecatup/Places" target="_blank">Github</a>
-      and hosted on
-      <a href="https://kuma-weatherapp.netlify.app/" target="_blank">Netlify</a>
-    </p>
-    <p>⭐-_-💧</p>
-  </footer>
-  <script src="src/index.js"></script>
 </html>

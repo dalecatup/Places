@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateRatingFields() {
     ratingFields.innerHTML = "";
     const categories =
-      placeType.value === "Restaurant"
+      placeType.value === "restaurant"
         ? ["Location", "Menu", "Service", "Price", "Special"]
         : ["Location", "Service", "Room", "Price", "Breakfast"];
 
@@ -55,23 +55,29 @@ document.addEventListener("DOMContentLoaded", function () {
       return alert("Please enter a place name and location.");
 
     fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${locationQuery}`
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        locationQuery
+      )}`
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log("Fetched location data:", data); // ✅ Debugging log
+
         if (data.length === 0) {
           alert("Location not found!");
           return;
         }
 
-        const { lat, lon, display_name } = data[0];
-        const locationLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+
+        const locationURL = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=17`;
 
         const ratings = [...document.querySelectorAll(".ratingInput")].map(
           (input) => input.value
         );
         const categories =
-          placeType.value === "Restaurant"
+          placeType.value === "restaurant"
             ? ["Location", "Menu", "Service", "Price", "Special"]
             : ["Location", "Service", "Room", "Price", "Breakfast"];
 
@@ -79,8 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
           name,
           type: placeType.value,
           ratings,
-          location: locationLink,
-          display_name,
+          locationURL,
+          display_name: data[0].display_name,
         };
 
         let places = JSON.parse(localStorage.getItem("places")) || [];
@@ -101,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     places.forEach(({ name, type, ratings, location, display_name }) => {
       const categories =
-        type === "Restaurant"
+        type === "restaurant"
           ? ["Location", "Menu", "Service", "Price", "Special"]
           : ["Location", "Service", "Room", "Price", "Breakfast"];
 
@@ -112,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const li = document.createElement("li");
       li.innerHTML = `<strong>${name}</strong> (${type})<br>
                                     ${ratingText}<br>
-                                    <a href="${location}" target="_blank">${display_name}</a>`;
+                                    <a href="${location}" target="_blank">📍Show in Map</a>`;
       placeList.appendChild(li);
     });
   }
