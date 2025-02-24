@@ -3,66 +3,105 @@ document.addEventListener("DOMContentLoaded", function () {
   const ratingFields = document.getElementById("ratingFields");
   const addButton = document.getElementById("addButton");
   const placeList = document.getElementById("placeList");
+  const locationInput = document.getElementById("locationInput");
 
   function updateRatingFields() {
     ratingFields.innerHTML = "";
     const categories =
-      placeType.value === "restaurant"
+      placeType.value === "Restaurant"
         ? ["Location", "Menu", "Service", "Price", "Special"]
         : ["Location", "Service", "Room", "Price", "Breakfast"];
 
     categories.forEach((category) => {
-      const fieldContainer = document.createElement("div");
-      fieldContainer.className = "ratingField";
-
       const label = document.createElement("label");
       label.textContent = `${category}: `;
-      label.className = "ratingLabel"; //
-
       const input = document.createElement("input");
       input.type = "number";
       input.min = 1;
       input.max = 10;
       input.value = 5;
       input.className = "ratingInput";
-
-      // Append label and input to container
-      fieldContainer.appendChild(label);
-      fieldContainer.appendChild(input);
-      ratingFields.appendChild(fieldContainer); //
+      ratingFields.appendChild(label);
+      ratingFields.appendChild(input);
     });
+  }
+
+  function fetchSuggestions(query) {
+    if (query.length < 3) return; // Prevent too many requests for short inputs
+
+    fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        query
+      )}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const datalist = document.getElementById("locationSuggestions");
+        datalist.innerHTML = ""; // Clear previous suggestions
+
+        data.forEach(({ display_name }) => {
+          const option = document.createElement("option");
+          option.value = display_name;
+          datalist.appendChild(option);
+        });
+      })
+      .catch((error) => console.error("Error fetching suggestions:", error));
   }
 
   function addPlace() {
     const name = document.getElementById("placeInput").value.trim();
-    if (!name) return alert("Please enter a place name.");
+    const locationQuery = locationInput.value.trim();
+    if (!name || !locationQuery)
+      return alert("Please enter a place name and location.");
 
-    const ratings = [...document.querySelectorAll(".ratingInput")].map(
-      (input) => input.value
-    );
-    const categories =
-      placeType.value === "restaurant"
-        ? ["Location", "Menu", "Service", "Price", "Special"]
-        : ["Location", "Service", "Room", "Price", "Breakfast"];
+    fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${locationQuery}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length === 0) {
+          alert("Location not found!");
+          return;
+        }
 
-    const place = { name, type: placeType.value, ratings };
+        const { lat, lon, display_name } = data[0];
+        const locationLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;
 
-    let places = JSON.parse(localStorage.getItem("places")) || [];
-    places.push(place);
-    localStorage.setItem("places", JSON.stringify(places));
+        const ratings = [...document.querySelectorAll(".ratingInput")].map(
+          (input) => input.value
+        );
+        const categories =
+          placeType.value === "Restaurant"
+            ? ["Location", "Menu", "Service", "Price", "Special"]
+            : ["Location", "Service", "Room", "Price", "Breakfast"];
 
-    document.getElementById("placeInput").value = "";
-    updateRatingFields();
-    renderList();
+        const place = {
+          name,
+          type: placeType.value,
+          ratings,
+          location: locationLink,
+          display_name,
+        };
+
+        let places = JSON.parse(localStorage.getItem("places")) || [];
+        places.push(place);
+        localStorage.setItem("places", JSON.stringify(places));
+
+        document.getElementById("placeInput").value = "";
+        locationInput.value = "";
+        updateRatingFields();
+        renderList();
+      })
+      .catch((error) => console.error("Error fetching location:", error));
   }
 
   function renderList() {
     placeList.innerHTML = "";
     let places = JSON.parse(localStorage.getItem("places")) || [];
 
-    places.forEach(({ name, type, ratings }) => {
+    places.forEach(({ name, type, ratings, location, display_name }) => {
       const categories =
-        type === "restaurant"
+        type === "Restaurant"
           ? ["Location", "Menu", "Service", "Price", "Special"]
           : ["Location", "Service", "Room", "Price", "Breakfast"];
 
@@ -71,14 +110,19 @@ document.addEventListener("DOMContentLoaded", function () {
         .join(" | ");
 
       const li = document.createElement("li");
-      li.innerHTML = `<strong>${name}</strong> (${type})<br>${ratingText}`;
+      li.innerHTML = `<strong>${name}</strong> (${type})<br>
+                                    ${ratingText}<br>
+                                    <a href="${location}" target="_blank">${display_name}</a>`;
       placeList.appendChild(li);
     });
   }
 
   placeType.addEventListener("change", updateRatingFields);
   addButton.addEventListener("click", addPlace);
+  locationInput.addEventListener("input", (e) =>
+    fetchSuggestions(e.target.value)
+  );
 
-  updateRatingFields(); // Initialize fields
-  renderList(); // Load existing places from storage on page load
+  updateRatingFields();
+  renderList();
 });
