@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const lat = data[0].lat;
         const lon = data[0].lon;
 
-        const locationURL = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=17`;
+        const locationURL = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=15`;
 
         const ratings = [...document.querySelectorAll(".ratingInput")].map(
           (input) => input.value
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     placeList.innerHTML = "";
     let places = JSON.parse(localStorage.getItem("places")) || [];
 
-    places.forEach(({ name, type, ratings, location, display_name }) => {
+    places.forEach(({ name, type, ratings, locationURL, display_name }) => {
       const categories =
         type === "restaurant"
           ? ["Location", "Menu", "Service", "Price", "Special"]
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const li = document.createElement("li");
       li.innerHTML = `<strong>${name}</strong> (${type})<br>
                                     ${ratingText}<br>
-                                    <a href="${location}" target="_blank">📍Show in Map</a>`;
+                                    <a href="${locationURL}" target="_blank">📍Show in Map</a>`;
       placeList.appendChild(li);
     });
   }
